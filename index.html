@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diyar-ı Masal | Türk Masalları Kitaplığı</title>
+    
+    <style>
+        :root {
+            --arka-plan: #FDFBF7;
+            --yazi-rengi: #2C3E50;
+            --kart-arka-plan: #FFFFFF;
+            --altin-sarisi: #D97706;
+        }
+
+        [data-theme="dark"] {
+            --arka-plan: #0F172A;
+            --yazi-rengi: #E2E8F0;
+            --kart-arka-plan: #1E293B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background 0.3s, color 0.3s; 
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--arka-plan);
+            color: var(--yazi-rengi);
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: var(--altin-sarisi);
+            margin-bottom: 10px;
+        }
+
+        .kontroller {
+            margin-top: 10px;
+        }
+
+        .kontroller button, .kategori-btn, .oku-btn {
+            background-color: var(--kart-arka-plan);
+            color: var(--yazi-rengi);
+            border: 1px solid var(--altin-sarisi);
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .arama-alani {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .arama-kutusu {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--altin-sarisi);
+            background: var(--kart-arka-plan);
+            color: var(--yazi-rengi);
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .kategoriler {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .kategori-btn.aktif {
+            background-color: var(--altin-sarisi);
+            color: white;
+        }
+
+        .masal-listesi {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .masal-kart {
+            background-color: var(--kart-arka-plan);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .masal-resim { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(217, 119, 6, 0.2); }
+
+
+        .pencere {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .pencere-icerik {
+            background-color: var(--kart-arka-plan);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            border: 2px solid var(--altin-sarisi);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .pencere-icerik p {
+            white-space: pre-line;
+            margin-top: 15px;
+            text-align: justify;
+        }
+
+        .kapat-btn {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 24px; cursor: pointer; color: var(--altin-sarisi);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Diyar-ı Masal</h1>
+        <p>Anadolu'nun Büyülü Hikayeleri</p>
+        <div class="kontroller">
+            <button onclick="temayiDegistir()">🌙 Gece Modu</button>
+        </div>
+    </header>
+
+    <div class="arama-alani">
+        <input type="text" id="aramaGirdisi" class="arama-kutusu" placeholder="Masal ara..." onkeyup="filtrele()">
+        <div class="kategoriler">
+            <button class="kategori-btn aktif" onclick="kategoriSec('tumu', this)">Tümü</button>
+            <button class="kategori-btn" onclick="kategoriSec('olaganustu', this)">Olağanüstü</button>
+            <button class="kategori-btn" onclick="kategoriSec('hayvan', this)">Hayvanlar</button>
+            <button class="kategori-btn" onclick="kategoriSec('gercekci', this)">Gerçekçi</button>
+        </div>
+    </div>
+
+    <main class="masal-listesi">
+        <!-- 1. Masal: Tombul Gözleme -->
+        <div class="masal-kart" data-kat="olaganustu">
+<img src="resimler/gozleme.png" class="masal-resim" alt="Tombul Gözleme">
+
+            <h3>Tombul Gözleme</h3>
+            <p>Üç yaşlı kadının elinden kaçan haylaz ve tombul bir gözlemenin öyküsü.</p>
+            <button class="oku-btn" onclick="acMasal('Tombul Gözleme', 'Bir zamanlar küçük bir köyde üç yaşlı kadın yaşarmış. Bu kadınlar, bir gün kahvaltıda ne yapalım ne yapalım, diye düşünürlerken birden akıllarına gözleme yapmak gelmiş. Sonra hep birlikte gözleme yapmak için mutfağa girmişler. Başlamışlar gözlemeyi yapmaya. Unu, sütü ve tuzu karıştırıp bir hamur elde etmişler. Daha sonra hamuru tavaya koyarak pişirmeye başlamışlar. Gözleme pişerken daha çok acıkmışlar. Gözlemenin kokusu geldikçe kadınların mideleri guruldamaya başlamış.\n\nGözleme pişmiş pişmesine ama yaşlı kadınları görünce çok korkmuş. Onlar tarafından yenmek istememiş. Çünkü onlar kimseye yardım etmeyen, sadece kendi zevklerine düşkün kadınlarmış. Gözleme önce tavadan hop diye yere zıplamış, daha sonra da evden kaçmış. Üç kadın, gözlemenin kaçtığını görünce telaştan bağırıp çağırmaya başlamışlar ama nafile, gözleme çoktan gözden kaybolmuş bile.\n\nGüneşli bir sabahın erken saatlerinde gözleme, mutlu mutlu yuvarlanıyormuş. Gözlemenin karşısına ansızın bir kedi çıkmış. Kedi, gözlemeyi görünce hafiften mırlayarak:\n- Selam, gözleme kardeş, demiş.\nGözleme de haylazca:\n- Selam, uzun bıyık, demiş.\n- Şişman gözleme, ne olur dur. Seni yemek istiyorum, demiş kedi.\nGözleme, bir yandan yuvarlanmış bir yandan da:\n- Hadi oradan, az önce üç yaşlı nineden kaçtım. Sen de beni yakalayamazsın ki, diyerek ormana doğru yuvarlanmış.\n\nGözleme, durmadan yuvarlanıyormuş, birden bir tilki ile karşılaşmış. Tilki gülerek:\n- Selam gözlemecik, demiş.\nGözleme de:\n- Selam, kızıl kürk, demiş.\nSonra tilki dilini yalayarak:\n- Yağlı, şişman gözleme, bir dur; soluklan da seni güzelce yiyebileyim, demiş.\nGözleme, daha da hızlanarak:\n- Hadi oradan, ben üç nineden ve bir uzun bıyıklı kediden kaçtım. Sen de beni yakalayamazsın ki, demiş ve kaçmış.\n\nTombul gözleme yol boyunca bir sürü hayvanla karşılaşmış ama hepsini atlatmayı başarmış. Hava da gittikçe kararmaya başlamış. Sonunda gözleme de yorulmuş. Ama onu yemeyi hak edecek kimseyi bulamamış. En sonunda önüne üç küçük çocuk çıkmış. Bu çocuklar, anne babasız, yapayalnız çocuklarmış. Çocuklar, gözlemeyi görünce sevinmişler. Ona üzgün ve perişan bir halde:\n- Güzel gözleme, yalvarırız, dur. Bütün gün yürüdük ama yiyecek hiçbir şey bulamadık, izin verirsen seni yiyebilir miyiz? Biz çok acıktık, demişler.\n\nGözleme sevinmiş, yerinde hoplayıp zıplamaya başlamış. Artık faydalı olabileceği, birilerine yardım edebileceği için çok mutlu olmuş. Bu yüzden hemen çocukların torbasına girmeyi kabul etmiş ve zıplamış. Çocuklar da bir yerde oturmuşlar, gözlemeyi paylaştıktan sonra güzelce yemişler. Böylece hem gözleme hem de çocuklar mutlu uyumuşlar. Gökten üç elma düşmüş, biri bu masalı anlatanın, biri dinleyenin, biri de ihtiyaç sahiplerine yardım edenlerin başına...')">Masalı Oku</button>
+        </div>
+                <!-- 2. Masal: Altın Saçlı Kız -->
+        <div class="masal-kart" data-kat="olaganustu">
+                        <img src="resimler/saclikiz.png" class="masal-resim" alt="Altın Saçlı Kız">
+
+            <h3>Altın Saçlı Kız</h3>
+            <p>Güzeller güzeli Gülnar ve annesinin gizemli altın veren çiçekleri ile onları kıskanan bir kadının ibretlik masalı.</p>
+            <button class="oku-btn" onclick="acMasal('Altın Saçlı Kız', 'Bundan çok yıllar önce, saraylarda padişahların yaşadığı, meydanlarda okların atıldığı, pazarlarda altın sikkelerle alışveriş yapıldığı zamanın birinde, güzel bir bahçenin tam ortasında, bembeyaz bir ev varmış. Bu evde altın sarısı saçları olan, güzel mi güzel, alımlı mı alımlı, al yanaklı, gül dudaklı, boylu poslu Gülnar adında bir genç kız, annesiyle yaşarmış. Güzeller güzeli Gülnar, her sabah babaannesinden kalma kemik tarağıyla saçlarını taramayı çok severmiş. Her gün yumuşacık saçlarını bir saat, iki saat hiç bıkmadan tarar da tararmış. Sonra da tarağın dişlerine takılan ve yere dökülen saç tellerini itinayla toplarmış. Onları pembe ipek mendilinin içine sarar, bir çekmecede saklarmış.\n\nOturdukları beyaz evin bahçesi, öyle güzel çiçeklerle bezeliymiş ki kokuları, siz deyin on mahalle, ben diyeyim yirmi mahalle öteden yayılırmış. Renkleri o kadar canlı, o kadar başkaymış ki bahçen önünden her geçen durup çiçeklere bakar, onların güzelliklerine hayran kalırmış. Gülnar’ın annesi Hatice, bir çocuk gibi severmiş bu güzel çiçekleri. Okşarmış, öpermiş, her akşam güneş batınca dağların gerisine, ay ışığı altında bu çiçekleri tek tek sularmış. Laleler onu gördüklerinde daha dik durmaya, menekşeler kokularını her köşeye yaymaya, güller iri iri açmaya çalışırlar, güzellik yarışına girişirlermiş. Hem çiçeklerle yaşamak öyle kolay da değilmiş. Çabuk küser, çabuk solar, boyunlarını da çabuk bükerlermiş Pek nazlı, pek nazenin, pek hassas, pek narin, pek kırılgan imişler. Onları asıl besleyip büyüten de sevgiymiş. Hatice haftada bir kere, karanlık çöker çökmez Gülnar’ın altın sarısı saç tellerinden birini alır, bahçedeki o güzel çiçeklerden seçtiğinin içine yavaşça koyarmış. Ertesi sabah da o çiçek, Hatice’ye bir altın verirmiş. Bu, anne ile kızının kimseye duyurmak istemedikleri bir sırmış. Anne kız böyle yaşar giderlermiş. Ancak insanlar çeşit çeşitmiş. İyiler de çokmuş, kötüler de. Kimin iyi, kimin kötü olduğunu ise bilebilmek pek zormuş. Günlerden bir gün, nasıl olduysa kadının biri, bir köşede dururken Hatice’nin çiçekten altın aldığını görüvermiş. Hayret etmiş, gözlerine inanamamış, dönüp bir daha bakmış: Gördüklerim doğru mu acaba, demiş. Hemen aklında türlü fikirler dolaşmaya, bu fikirler de bir kurt gibi beynini kemirmeye başlamış. Sonunda bu fikirlere yenilmiş, aklınca bir plan hazırlamış. Üzerine eski püskü, yırtık pırtık giysileri geçirip, elini yüzünü kire pasa bulayıp, güzel bahçeli beyaz evin kapısına varmış. Hatice ile Gülnar kapıya, bu perişan görünen kadının karşısına çıkmışlar. Ona: Buyurun, demişler gülümseyerek. Kadın iki büklüm bir halde, kısık bir sesle: Misafir etseniz beni birkaç gün, Allah rızası için, deyip kapının önüne yıkılıvermiş. Hatice kadına pek acımış, onun haline pek üzülmüş. Hemen ana kız, kadını içeri taşımışlar. Yatağa yatırıp üstünü örtmüşler. Merakla başında beklemeye başlamışlar. Bir süre sonra kadın gözlerini açmış: Su içsem, demiş. Gülnar, bir koşu su getirmiş: Açım, demiş kadın. Bu sefer de koşmuş mutfağa, sıcak çorba getirmiş. Bir güzel kadının karnını doyurlar. Yemeğin ardından da kadın açmış ellerini, uzun uzun Gülnar ile annesine dua etmiş. Kadın o kadar güzel dualar ediyormuş ki Gülnar ile Hatice çok mutlu olmuşlar. Hatice, kadına üzülerek: Evin yoksa kal bizimle, yoldaş olursun bize, demiş. Kadın, hiç beklemeden hemen atılmış: Olur, olur kalırım, demiş. Kim ne düşünür nereden bilsin Hatice? Kimin niyeti nedir, nasıl bilsin? O günden sonra beyaz evde birlikte yaşamaya başlamışlar. Kadına güzel, temiz elbiseler vermişler. Birlikte yiyip içmeye başlamışlar. Her sabah Gülnar’ın altın sarısı saçlarını o taramış. Her teli itinayla toplamış, kimse görmeden bir kısmını ayırıp saklamış. Fırsat buldukça da bahçeye çıkıp sakladığı saç tellerini çiçeklere koymuş. Ertesi sabah da kimse görmeden çiçeklerden bir bir altınları toplamış. Günler geçmiş, haftalar geçmiş, aylar geçmiş. Kadın bu işten çok yorulmuş. Yeter artık, diyerek bir gece yarısı Gülnar uyurken derin derin, mışıl mışıl, makası eline almış. Gülnar’ın altın saçlarını bir çırpıda kökünden tutup kesmiş. İşte o an olmuş, ne olduysa! Altın saçların her bir teli kocaman bir yılana dönüşmüşler. Kadın korkudan küçük dilini yutmuş. Olanlarla uyanan Gülnar: Durun, demiş yılanlara. Kadını kurtarmış ama kadın bir daha hiç konuşamamış. O günden sonra da kiminle karşılaştıysa saçının tellerini eşarbının ucundan gösterip bir şeyler geveler, bir şeyler anlatmak istermiş. Lakin kimse, bu kadının ne dediğini bir türlü anlayamazmış. Ona acıdıklarından eline ekmek parası tutuşturup yollarına devam ederlermiş.\n\nKadın bir gün, bir sokağın köşesinde bağdaş kurmuş otururken aksakallı bir ihtiyar ile karşılaşmış. Aksakallı ihtiyar kendisine bir şeyler anlatmak isteyen kadının gözlerine uzun uzun bakmış. Sonra da: Bir adam vardı buralarda yaşayan, demiş kadına. Nalbant idi. Herkes ona hürmet eder, güvenirdi. Bir sabah senin gibi o da çiçeklerin verdiği altınları gördü. Göz bir gördü mü, akıl bir yazdı mı, gözün gördüklerini kenara atamaz, insan kendini tutamaz olur. Günler boyu eline iş alamadı. Gelip gidenler, niye çalışmıyorsun, hasta mısın, diye sordular uzun süre. Nalbant kimseyle tek kelime konuşmadı. Gözünün önünden çil çil altınlar gitmiyordu. Bir damla uyku girmedi gözüne. Sonra baktı ki olmayacak, eline koluna, diline kulağına bir de aklına hakim olamayacak. Her bir şeyini, neyi var neyi yoksa bırakıp çekip gitti buralardan. Kimseler bir daha o nalbanttan haber alamadı. Ne nereye gittiğini öğrendiler ne de neler yaptığını duydular. Ben sana söyleyeyim mi ne oldu o nalbanda? Kadın gözleri yuvalarından fırlayacakmış gibi ihtiyara bakınca devam etmiş aksakallı ihtiyar konuşmaya: Nalbant, şimdi padişahın sağ kolu. Vezir oldu memlekete. Eğer senin gibi tutmasaydı kendini, bu şehrin sokaklarında dolaşacak, adı da deli nalbanda çıkacaktı, demiş. Bunları söyledikten sonra aksakallı ihtiyar, yürüye yürüye kadının yanından uzaklaşmış. Onun arkasından bakakalan kadın ise bağırmış da duyanlar gök yarıldı sanmış. Çocuklar korkudan öyle bir ağlamışlar ki kimse onları üç gün üç gece susturamamış. Kediler korkup damdan dama atlaya atlaya başka şehirlere miyavlamaya gitmişler.\n\nGülnar’ın saçları ise kısa sürede uzamış, yine eskisi gibi taranacak hale gelmiş. Açgözlü olmanın, yalan söylemenin, kötü düşüncelerin ne kadar zararlı olduğunu da daha iyi öğrenmiş. Anne kız, uzun yıllar mutlu bir şekilde, beyaz evlerinde, güzel çiçekleri ile yaşamaya devam etmişler. Bir daha kimseye hemen güvenmemişler. Gerçekten ihtiyacı olan insanlara yardım etmişler. İnsanları iyice tanıdıktan ve onları gözlemledikten sonra onlara güvenmişler. Gökten üç elma düşmüş, biri bu masalı anlatanın başına, biri dinleyenin başına, diğeri de tüm yardımsever çocukların başına. Onu sakın yere düşürmeyin, ömür boyu saklayın...')">Masalı Oku</button>
+        </div>
+        <!-- 3. Masal: Tütüncü Kız -->
+        <div class="masal-kart" data-kat="gercekci">
+                        <img src="resimler/tutuncukiz.png" class="masal-resim" alt="Tütüncü Kız">
+
+            <h3>Tütüncü Kız</h3>
+            <p>Sarayın av meraklısı oğlu ile kaderine inanan akıllı tütüncü kızın saray masasında kesişen sevgi dolu hikayesi.</p>
+            <button class="oku-btn" onclick="acMasal('Tütüncü Kız', 'Ülkenin birinde bir padişah yaşarmış. Bu padişahın avlanmayı çok seven bir oğlu varmış. Bu genç, her gün arkadaşlarıyla ava gider, akşama kadar avlanır, yorgun argın eve dönermiş. Günlerden bir gün padişahın oğlu evine dönerken bir tütün tarlasının yanından geçmiş. Bahçede çalışan tütüncü kızı görmüş:\n\n- Tütüncü kızı, tütüncü kızı, tütünün yaprağı kaç lira, demiş.\n\nTütüncü kızı ise oğlanı görünce çok beğenmiş. Ona:\n- Al sana bir dal tere, Mevlam seni bana vere, tütün almak istersen, bir yaprağı beş lira. Benimle evlenmek istersen, önce bana sor derim; ben seni senden değil, yüce Mevlamdan isterim, demiş.\n\nPadişahın oğlu, bu cevaba gülüp geçmiş ama bir taraftan da kızı çok beğenmiş. Her avdan dönüşünde de tütün tarlasının önünden geçip tütüncü kızına seslenirmiş. Tütüncü kızı da ona aynı şekilde cevap verirmiş.\n\nPadişah, oğlunun sürekli ava gitmesinden şikayetçiymiş. Onun sarayda kalması ve ülkeyi yönetmesi için bir çare arar dururmuş. Bir gün hanımına: Hanım, biz bu oğlanı evlendirirsek belki av merakı azalır. Ben de onu ülke yönetimine alıştırırım, demiş. Çevreyi araştırmışlar. Hem güzel hem zeki hem de asil bir kız aramışlar. Padişah ve hanımı bir gün gezintiye çıkmışlar. Yolları da bir tütün tarlasından geçmiş. Padişahın hanımı tütüncü kızı uzaktan görmüş, beğenmiş. Kızın babasından kızlarını istemişler. Kızın babası: Padişahım oğlunuzun rızası olmadan kızımı oğlunuza veremem, demiş.\n\nBunun üzerine padişah: Eğer kabul ederseniz, sizi yarın yemeğe davet edelim. Sarayda birlikte bir yemek yiyelim. Oğlum da gelir. Eğer oğlum da kızınızla evlenmek isterse bu işi tatlıya bağlayalım, demiş. Tütüncü ve kızı bu teklifi kabul etmişler. Ertesi sabah padişah oğluna: Oğlum sana uygun bir kız bulduk, annenle ben çok beğendik. Akşam onları da yemeğe davet ettik, senin de bizimle yemek yemeni istiyoruz. Eğer sen de kızı beğenirsen düğününüzü yapalım, demiş.\n\nAkşam olmuş, tütüncü ile kızı yemeğe gelmiş. Padişahın oğlu yemek masasında tütüncü kızını görünce çok şaşırmış. Hayret ve sevinçle: Bu nasıl olur, demiş. Tütüncü kızı da masada: Ben seni senden değil, yüce Mevlamdan istemiştim unuttun mu, demiş. Oğlan kızın söylediklerine gülmüş. Onun da gönlü zaten tütüncü kızındaymış. Padişah oğluyla kızı evlendirmiş. Kırk gün kırk gece düğün yapılmış. Padişahın oğlu artık avda çok vakit geçirmiyor, yönetimle ilgileniyormuş. Hem sevenler birbirine kavuşmuş hem de padişah mutlu olmuş. Onlar ermiş muradına biz çıkalım kerevetine.')">Masalı Oku</button>
+        </div>
+        <!-- 4. Masal: Aslan Padişah ile Fare -->
+        <div class="masal-kart" data-kat="hayvan">
+                        <img src="resimler/aslan-ve-fare.png" class="masal-resim" alt="Aslan Padişah ile Fare">
+
+            <h3>Aslan Padişah ile Fare</h3>
+            <p>Zamanında kendisini küçük görüp küçümseyen ormanlar kralını, avcıların ağından keskin dişleriyle kurtaran cesur fare dostunun hikayesi.</p>
+            <button class="oku-btn" onclick="acMasal('Aslan Padişah ile Fare', 'Güzel bir sonbahar sabahı ormanların padişahı aslan, bir ağacın gölgesinde yatmış, güneşin keyfini çıkartıyormuş. Korkak fare de avlanmak için ormanda gezintiye çıkmış. Fare olabildiğince sessiz, yapraklar altından korkak ve ürkek adımlarla ormanda dolaşıyormuş ki birden kendini aslan padişahın pençesinin altında bulmuş. Fare başlamış bağırmaya: Vik vik vik! Beni kurtaran yok mu, demiş.\n\nKim zavallı fareyi kurtarabilir ki aslan padişahın pençeleri arasından? Aslan ayağa kalkmış, tam hamle yapacakmış ki can havliyle atılan yardım çığlığını duymuş ve pençesinin altındaki fareyi fark etmiş. Avının ayağının altında olduğuna pek sevinmiş. Gerçi karnı da çok acıkmamış. Aslan fareyle eğlenmeye başlamış. Fare korkuyla aslana: Aman padişahım, ben ettim, sen etme. İstemeden kendimi burada buldum. Sen ormanların padişahısın. Bu seferlik beni yeme, bağışla, demiş.\n\nAslan: Neden bağışlayayım? Ayağıma gelmiş av hiç bağışlanır mı? Ben de tam ava çıkıyordum. Seni yedikten sonra burada biraz daha güneşin keyfini çıkartırım, demiş. Fare aslana: Sen ormanların padişahısın, bense küçük bir fareyim. Ben senin karnını bile doyurmam. Bir seferlik affetsen ne olur ki, demiş.\n\nAslanın son derece kararlı olduğunu anlayan fare aslana son bir şey daha söylemek istemiş: Padişahım, bak beni bir seferlik affet, bir gün ben de senin hayatını kurtarırım, demiş. Böyle deyinice aslanın keyfi kaçmış. Biraz da öfkelenerek: Sen bu küçük halinle bana nasıl yardım edebilirsin ki zavallı fare, demiş. Fare: Hayatımı bağışlayıp bana bir şans verirseniz, inşallah bir gün bunu size ispatlayabilirim, demiş. Aslan padişah, farenin bu isteğini yerine getirmiş, fareyi pençesinin arasından serbest bırakmış. Fare özgür kalmanın vermiş olduğu coşkuyla evine koşmuş.\n\nAradan günler geçmiş. Fare yine güzel bir ilkbahar sabahı ormanda gezintiye çıkmış. Bu sefer daha tedbirli ve ürkekmiş. Etrafı kolaçan ederken uzaklardan bir homurtu sesi duymuş. Sesi merak ederek sesin geldiği yöne gitmeye başlamış. Sesin geldiği yere vardığında bir de ne görsün? Ormanlar padişahı aslan avcıların ağına düşmüş, homur homur homurdanmıyor mu? Beklediği zamanın geldiğini düşünen fare, hemen harekete geçmiş. Süratle tanıdığı, bildiği bütün arkadaşlarına haber göndermiş. Kendisini tanıyan bütün farelerin söylediği yere gelmelerini istemiş. Biz diyelim yüz, siz deyin bin fare çok kısa zamanda oraya gelmişler. Fareler gördükleri manzara karşısında küçük dillerini yutacak kadar şaşırmışlar. Gür bir fare sesi ortalığı yatıştırmış: Haydi arkadaşlar, iş başına! Bütün ipler kesip ormanların padişahını kurtalalım. Hücum, demiş.\n\nÇok kısa zamanda ipler kesilmiş. Ormanların padişahı önce yere düşmüş. Ayağa kalktığında gözlerine inanamamış. Rüya görüyorum sanmış. Kendisini kimin kurtardığına bir türlü karar verememiş. Yaprakların arasından ince bir ses: Geçmiş olsun padişahım. Şimdi nasılsınız acaba, demiş. Aslan bu sese yabancı değilmiş. Yaprağın altındaki fareyi görünce önce irkilmiş, sonra şaşkınlığına devam etmiş. Fareye: Yoksa beni sen mi kurtardın, demiş. Fare: Evet, sayın padişahım ama tek başıma değil, demiş. Aslan padişah gür bir ses ve mahcup bir edayla fareye: Nasıl becerdin bunu, demiş. Fare: Arkadaşlarımı toplayıp kemirgenlik özelliğimizi ortaya koyduk padişahım, demiş.\n\nAslan padişah önce olabilir mi, diye düşünmüş, sonra fareye inanmış. Fareyi zamanında küçümsediği için utancından kıpkırmızı olmuş. Kocaman ağzından şu sözcükler dökülmüş: İyi ki seni yememişim ve serbest bırakmışım. Bundan sonra sen benim can dostumsun, demiş. O günden sonra aslan padişah ile fare iyi bir dost olmuşlar. Ormanın içinde huzur içinde yaşamlarını sürdürmüşler. Çocuklar siz siz olun kimseyi küçük görmeyin. Her canlının farklı bir özelliğinin ve gücünün olduğunu da unutmayın.')">Masalı Oku</button>
+        </div>
+        <!-- 5. Masal: Anne Keçinin Yavruları ile Kurt -->
+        <div class="masal-kart" data-kat="hayvan">
+                        <img src="resimler/annekeci.png" class="masal-resim" alt="Anne Keçinin Yavruları ile Kurt">
+
+            <h3>Anne Keçinin Yavruları ile Kurt</h3>
+            <p>Annesinin öğütlerini unutup kapıyı unlu ayaklı hilekar kurda açan yedi yavru oğlağın ve onları kurtaran akıllı anne keçinin masalı.</p>
+            <button class="oku-btn" onclick="acMasal('Anne Keçinin Yavruları ile Kurt', 'Bir keçinin yedi yavrusu varmış. Bir kulübede yaşarlarmış. Anne keçi, her sabah erkenden kalkar, dağdan ot toplamak için çıkar, gidermiş. Yavruları da annesini kulübelerinin içinde beklermiş. Kapıyı kitler, içerde oynarlarmış. Anne keçi, evden çıkarken yavrularını hep tembihlermiş:\n\n- Aman yavrularım! Sakın ola, kapıyı kimseye açmayasınız. Ne olur ne olmaz, dermiş. Onlar da annelerinin sözünü tutar, kapıyı kimseye açmazlarmış. Anne keçi yavrularına: Ben gelirsem, size ben geldim yavrularım. Sırtımda ot, mememde süt getirdim, derim. O zaman kapıyı açarsınız, dermiş. Onlar da: Olur, derlermiş.\n\nYavrular annelerinin sözünü dinlerler, öylece yaşayıp giderlermiş. Bir gün anne keçi kulübeden ayrılarak dağa ot toplaya gitmiş. Bir kurt gizlice anne keçiyi izliyormuş. Anne keçi gider gitmez, kulübenin kapısına yaklaşmış. İçerdeki yavrulara: Açın yavrularım! Ben geldim, diyerek kapıya tak tak vurmuş. Yavrular korkmuşlar, kurda: Hayır, sen annemiz değilsin. Biz sana kapıyı açamayız, demişler. Onun üzerine kurt oradan ayrılmış, gitmiş. Akşam olunca anneleri gelmiş. Aynı sözü söylemiş: Yavrularım açın, ben geldim. Sırtımda ot, mememde süt getirdim, demiş. Onlar da kapıyı açmışlar. Olanı annelerine anlatmışlar. Anneleri durumu anlayınca: Çok iyi yapmışsınız yavrularım. Sakın kapıyı benden başkasına açmayasınız, demiş.\n\nErtesi gün yine anne keçi evden ayrılmış. Kurt akşama kadar beklemiş. Annenin geldiğini gören kurt, onu iyice izlemiş. Anne keçinin kapıya geldiğinde açın yavrularım, sırtımda ot getirdim, mememde süt getirdim, dediğini duymuş. Ertesi sabah anne keçi evden ayrılığında kurt kapıya gelmiş ve yavru keçilere: Açın yavrularım! Mememde süt getirdim, sırtımda ot getirdim, ben geldim, demiş. Yavrular: Yoook! Sen annemiz değilsin, biz sana kapıyı açamayız, diye bağırmışlar. Kurt da oradan uzaklaşmış. Akşam olmuş, anne keçi eve gelmiş. Yavrular annelerine: Yine birisi geldi, senin sözlerini söyledi. Biz kapıyı açmadık, demişler. Anne keçi: Aferin yavrularım. İyi ki açmamışsınız. Ben bu sefer geldiğimde ayağımı uzatırım kapının arasından. O zaman benim geldiğimi bilirsiniz oarsınız ve kapıyı açarsınız, demiş. Bunlar da: Olur, demişler.\n\nNeyse anne yine gitmiş ot toplamaya. Kurt evden annenin gittiğini fark edince çıkmış, gelmiş. Sesini de incelterek yine demiş: Yavrularım! Açın ben geldim, mememde süt getirdim, sırtımda ot getirdim, demiş. Yavrular: Yoook! Sen bizim annemiz değilsin, demişler. Niye, anneniz olmayayım, benim annenizim, demiş kurt. Annemiz kapının arasından ayağını uzatırdı, demiş yavrular. Kurt hemen ayağının birisini kapının arasından içeri uzatmış. İncelemiş, bakmışlar: Yoook! Bu annemizin ayağı değil. Annemizin ayağı beyazdı, demişler. Bunun üzerine kurt hemen oradan ayağını çekmiş. Doğru değirmene gitmiş. Çuvalın içine ayaklarını batırmış, una iyice bezemiş. Tekrar gelmiş, kapıya vurmuş: Ben geldim yavrularım, mememde süt getirdim, sırtımda ot getirdim, ayağımı kapıdan uzatıyorum, demiş. Kapıdan ayağını uzatmış. Onlar da bakmışlar ki uzatılan ayak beyaz, kurdu anneleri sanmışlar. Kapıyı açmışlar. Kapıyı açar açmaz kurt, birer birer yavruları yutmuş. Sadece bir tanesi saklanabilmiş. Kurt onu bulamamış. O da öyle korkmuş ki hiç sesini çıkarmamış. Kurdun karnı doymuş ya, gitmiş dereden bir de güzel su içmiş. Kulübenin yakınında bir yere yatmış, uyumuş.\n\nNeyse akşam olmuş. Anne gelmiş. Bir bakmış ki kulübenin kapısı açık. Korkuyla içeriye dalmış: Yavrularım neredesiniz, diye bağırmış. Hiç ses yok. Kurdu görünce korku ile saklanan yavru keçi, saklandığı yerden yavaşça çıkmış: Anne ben buradayım, demiş. Üzülerek olanları anlatmaya başlamış: Kardeşlerimi kurt yedi. Bir ben kaldım, demiş. Anne deliye dönmüş, doğru derenin kenarına gitmiş. Gitmiş ki derenin kenarında kurt horul horul uyuyor. Hemen kurdun karnını açmış. Yavrularını hep çıkartmış. Hepsi sağ çıkmışlar, birlikte oynamaya başlamışlar. Tabii böyle kurdun karnında kaldıkları için çok korkmuşlar. Anneleri de kendilerini kurtardı, diye sevinmişler.\n\nAnne keçi yavrularına: Toplayın taşları, getirin bakayım, demiş. Taşları toplayıp getirmişler. Kurdun karnına doldurmuşlar. Anne keçi kurdun karnını bir güzel dikmiş. Bunlar evlerine doğru yol alırken kurt uyanmış. Ayağa kalkmış ama yürüyememiş. Pat, bir oraya düşmüş, bir bu tarafa. Kurt oracıkta ölmüş. Çocuklar da bundan sonra daha dikkatli olacaklarına dair annelerine söz vermişler. Ondan sonra hiçbir kurt onları kandıramamış. Mutlu, mesut hayatlarını sürdürmüşler. Gökten üç elam düşmüş, biri masalcının, biri masalı dinleyen çocukların, biri de anne keçiyle yavrularının başına...')">Masalı Oku</button>
+        </div>
+        <!-- 6. Masal: Şengülüm Şüngülüm Mengülüm -->
+        <div class="masal-kart" data-kat="hayvan">
+                        <img src="resimler/sengul.png" class="masal-resim" alt="Şengülüm Şüngülüm Mengülüm">
+
+            <h3>Şengülüm Şüngülüm Mengülüm</h3>
+            <p>Bilebilediği sivri boynuzlarıyla hilekar kurdun karnını açarak kardeşi Mengülümü kurtaran anne keçinin ders verici hikayesi.</p>
+            <button class="oku-btn" onclick="acMasal('Şengülüm Şüngülüm Mengülüm', 'Bir varmış, bir yokmuş. Evvel zaman içinde, kalbur saman içinde, ormanın birinde bir keçi ile üç yavrusu yaşarmış. Bu yavruların adları: Şengülüm, Şüngülüm ve Mengülümmüş. Anneyi her gün ormana gider ve onlara yiyecek getirirmiş. Anne her gün evden çıkmadan önce, çocuklarına öğüt verirmiş:\n\n- Şengülüm, Şüngülüm ve Mengülüm, sakın başkasına kapıyı açmayın! Ben geldiğim zaman kapıyı tık tık tıklayacağım. Şengülüm, Şüngülüm, Mengülüm açın kapıyı, ben geldim. Boynuzumda ot, ağzımda su, göğsümde süt, yüreğimde sevgi getirdim, diyeceğim. Bu bizim aramızda bize ait bir parola olsun, demiş.\n\nŞengülüm, Şüngülüm ve Mengülüm çok akıllı oğlaklarmış. Annelerinin sözlerini hiçbir zaman unutmazlarmış. Anne keçi sabah ormana gittiğinde, oğlaklar kapıyı kilitler beklermiş. Bir gün ormanda gezen bir kurt, anne keçinin gittiğini görmüş. Doğruca eve gidip kapıyı tıklatmış. Oğlaklar kim o deyince kurt: Açın açın benim, anneniz, demiş. Oğlaklar kapının aralığından bakıp kurt olduğunu anlayınca kapıyı açmamışlar: Git buradan, sen kurtsun demişler. Kurt sinirlenmiş ama uzaktan anne keçinin geldiğini görünce samanlığa saklanıp izlemiş. Anne keçinin parolayı söyleyip kapıyı açtırdığını duymuş.\n\nErtesi gün anne keçi evden ayrıldığında kurt kapıya gelmiş. Sesini incelterek parolayı aynen söylemiş. Oğlaklar anneleri geldi sanıp kapıyı açıvermişler. Kurt içeri dalınca Şengülüm ve Şüngülüm yatağın altına saklanmış ama kurt Mengülümü yutmuş. Karnı doyan kurt evden uzaklaşmış. Anne keçi eve gelip durumu öğrenince yavrularını sakinleştirmiş: Siz burada durun, ben Mengülümü alıp geleceğim demiş.\n\nAnne keçi önce demirciye gitmiş, boynuzlarını iyice biletmiş. Sonra hızlıca kurdun evine gidip çatısına çıkmış ve ayaklarıyla vurmaya başlamış. Kurda dışarı çıkmasını söylemiş. Kurt kapıdan çıkıp anne keçiye de saldırmak isterken, keçi hızlıca koşup sivri boynuzlarıyla kurdun karnına vurmuş. Keçinin boynuzları o kadar sivriymiş ki bir hamlede kurdun karnını açmış. Hemen Mengülümü kurdun karnından sağ salim çekip almış. Kurt yaptıklarının cezasını canıyla ödemiş. Oğlaklar o günden sonra daha dikkatli olmuşlar. Anneleriyle birlikte mutlu mesut yaşamışlar.')">Masalı Oku</button>
+        </div>
+        <!-- 7. Masal: Memiş Dayı -->
+        <div class="masal-kart" data-kat="hayvan">
+                        <img src="resimler/memeisdayi.png" class="masal-resim" alt="Memiş Dayı">
+
+            <h3>Memiş Dayı</h3>
+            <p>Ayının sırrını eşine açıklayan Memiş Dayı'nın, komşusunun kurnaz tilki planıyla ayı zulmünden kurtuluş öyküsü.</p>
+            <button class="oku-btn" onclick="acMasal('Memiş Dayı', 'Bir varmış, bir yokmuş. Evvel zaman içinde, kalbur saman içinde, bir köyde bir Memiş Dayı varmış. Çiftçilik yaparmış. Bir gün tarladan dönerken bir ayının pirelerini temizlediğini görmüş. Ayı, Memiş Dayının kendisine baktığını görünce: Eğer beni gördüğünü kimseye söylemezsen evinin bacasından her akşam bir koyun kuyruğu atarım, demiş. Memiş Dayı akşam eve geldiğinde, ayı söz verdiği gibi bacadan koyun kuyruğunu atmış. Ayı, birkaç gün böyle devam etmiş. Dayının hanımı bu durumdan şüphelenmiş. Memiş Dayıyı sıkıştırmaya başlamış: Bu işte bir iş var. Her gün bu kuyruk bize nereden geliyor, demiş. Memiş Dayı, hanımına olan biteni anlatmış: Tarladan gelirken ağacın dibinde bir ayı gördüm. Ben onu görünce ayı utandı. Bu durumdan kimseye bahsetme, ben de sana her gün bir kuyruk atarım dedi, demiş.\n\nAyı bu konuşmaları dinlemiş. Bakmış ki Memiş Dayı durumu hanıma haber verdi, oradan seslenmiş: Sen benim sırrımı hanımına söylediğin için seni de öküzlerini de yarın yiyeceğim, demiş. Memiş Dayı o gece korkusundan yatamamış. Sabaha kadar ne yapacağını düşünürken yanına komşusu gelmiş: Ne düşünüyorsun, demiş. Memiş Dayı olan biteni komşusuna anlatmış. Komşu: Düşündüğün şeye bak, ben sana yardım ederim, demiş. Gidip bir tane tilki yakalamış. Beş-altı köpeği de tilkinin peşinden salmış. Harman yeri toz duman olmuş.\n\nBir süre sonra ayı gelip Memiş Dayıya: Memiş Dayı, şimdi seni ve öküzlerini yiyeceğim, demiş. Memiş Dayı: Yok beni yeme, bak her yer toz duman. Padişahın atları ile katırları kurtlanmış, öldürmek için bir ayı arıyorlar. Atların, katırların yaralarına iyileşsin diye ayı yağı süreceklermiş, demiş. Ayı: Aman! Memiş Dayı sen beni sakla, ben yine sana her gün bir kuyruk daha atarım, demiş. Memiş Dayı: Nereye saklayayım, demiş. Ayı: Ambarda bir tane çuval var, onun içine ben girerim. Sen beni oraya sakla, bulamasınlar, demiş. Memiş Dayı, ayıyı çuvalın içine saklamış. Böylece ayının zulmünden kurtulmuş. Mutlu ve huzurlu yaşamaya devam etmiş.')">Masalı Oku</button>
+        </div>
+        <!-- 8. Masal: Akıllı Çocuk ile Dev -->
+        <div class="masal-kart" data-kat="olaganustu">
+                        <img src="resimler/kucuk-cocuk-ve-dev.png" class="masal-resim" alt="Akıllı Çocuk ile Dev">
+            <h3>Akıllı Çocuk ile Dev</h3>
+
+            <p>Korkunç devin karşısına peynir ve kuş hilesiyle dikilerek hem odunları toplayan hem de altınları kazanan cesur oduncu çocuğun efsanesi.</p>
+            <button class="oku-btn" onclick="acMasal('Akıllı Çocuk ile Dev', 'Uzun zaman önce ülkenin birinde büyük bir orman varmış. Bu ormanın içinde kocaman bir dev yaşarmış. Bu dev kimseye odun aldırtmazmıs. Ancak bir köylü, kurnazlıkla bu ormandan odun toplarmış. Köylü artık yaşlanmış, odun toplayamaz olmuş. Bir gün oğullarını çağırmış. Onlara: Evlatlarım! Çok yaşlandım, evin odununu da getiremez oldum. Bu görev artık sizlerindir, demiş. Bunun üzerine oğlanlar sırasıyla ormana gitmeye karar vermişler. Önce büyük oğlan ormana gidip odun kesmeye başlamış. Tam o sırada büyük bir ses: Kim o, diye bağırmış. Oduncunun oğlu korkudan sesini bile çıkaramamış. Bir de bakmış ki büyük bir dev kendisine doğru geliyor! Bir yandan da: Seni yakalarsam ağzıma atar, sakız gibi çiğnerim, diyemez mi? Büyük oğlan baltasıyla eşeğini bırakıp eve zor düşmüş. Ertesi gün ortanca oğlan ormana gitmiş. O da devi görünce canını zor kurtarıp oradan kaçmış. Sıra küçük oğlana gelmiş.\n\nKüçük oğlan, ormana gitmeden önce cebine yaş peynir ile bir kuş koymuş. Sonra da eşeğine binip ormana gitmiş. Bir süre sonra dev görünmüş: Seni yakalarsam ağzıma atar, sakız gibi çiğnerim, demiş. Küçük oğlan devden korkmamış. Devi yanına çağırıp onunla anlaşma yapmış. Dev, oğlana: İsteklerimi yerine getirirsen odun toplamana izin veririm, demiş. Bunun üzerine oğlan hünerlerini göstermiş. Önce dev yerden bir taş almış, sıkıp suyunu çıkarmış. Sonra da küçük oğlandan bunu yapmasını istemiş. O da cebinden çıkardığı peyniri, eline alıp suyunu çıkarmış. Bunu gören dev çok şaşırmış.\n\nÖfkelenen dev, yerden bir taş alıp uzağa fırlatmış. Taş hiç yere düşmeden uzaklara gitmiş. Oğlan da cebindeki kuşu çıkartıp havaya atmış. O da hiç yere düşmeden uçup gitmiş. Olanları gören dev, çok korkmuş. Oğlanın odun toplamasına izin vermiş. Dev o kadar korkmuş ki oğlan bir daha yanına gelmesin diye ona bir sürü altın vermiş. Oduncunun oğlu altınlarıyla odunlarını alarak eve gelmiş. Babası bu duruma çok şaşırmış. Oğluyla gurur duyan babası, küçük oğlunu diğer oğullarına örnek göstermiş. O günden sonra cesur oğlanla kardeşleri hiçbir zorluk yaşamadan hayatlarına devam etmişler. Onlar ermiş muratlarına, biz çıkalım kerevetlerine…')">Masalı Oku</button>
+        </div>
+
+    </main>
+
+    <div id="masalPenceremiz" class="pencere">
+        <div class="pencere-icerik">
+            <span class="kapat-btn" onclick="kapatMasal()">&times;</span>
+            <h2 id="pencereBaslik" style="margin-bottom: 15px; color: var(--altin-sarisi);"></h2>
+            <p id="pencereMetin"></p>
+        </div>
+    </div>
+
+    <script>
+        function temayiDegistir() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        function acMasal(baslik, icerik) {
+            document.getElementById('pencereBaslik').innerText = baslik;
+            document.getElementById('pencereMetin').innerText = icerik;
+            document.getElementById('masalPenceremiz').style.display = 'flex';
+        }
+
+        function kapatMasal() {
+            document.getElementById('masalPenceremiz').style.display = 'none';
+        }
+
+        let aktifKategori = 'tumu';
+
+        function kategoriSec(kategoriAdi, buton) {
+            document.querySelectorAll('.kategori-btn').forEach(btn => btn.classList.remove('aktif'));
+            buton.classList.add('aktif');
+            aktifKategori = kategoriAdi;
+            filtrele();
+        }
+
+        function filtrele() {
+            let kelime = document.getElementById('aramaGirdisi').value.toLowerCase();
+            let kartlar = document.querySelectorAll('.masal-kart');
+
+            kartlar.forEach(kart => {
+                let baslik = kart.querySelector('h3').innerText.toLowerCase();
+                let kat = kart.getAttribute('data-kat');
+
+                let kelimeUyuyor = baslik.includes(kelime);
+                let kategoriUyuyor = (aktifKategori === 'tumu' || kat === aktifKategori);
+
+                if (kelimeUyuyor && kategoriUyuyor) {
+                    kart.style.display = 'flex';
+                } else {
+                    kart.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
