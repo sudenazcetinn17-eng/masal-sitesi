@@ -1,3 +1,4 @@
- Projenin adı:Masal sitesi
-masal sitesi türk milletine  ait olan 8 tane masal derlemesinden oluşan bir site massalr türlerine göre ayrılmıştır olağan üstü geröek ve hayvan masalları olarak butonlara bastığınızda istediğin türdeki masallara ulaşabilirsiniz ve aynı zamanda ece modu butonu mevcuttur gece çocuklarınıza masal okurken rahatsız edşcş bir aydınlıktan kaçınmak için masalların üzerine tıkladığınızda masalların tamamı açılır ve okumaya uygun hale gelir arama aracını kullanarakta sitede mevcut olan masallar arasında arama yapabilirsiniz.
- Hazırlayan:Sudenaz Çetin 86230001 
+MASAL SİTESİ
+Masal Sitesi, Türk kültürüne ait 8 seçme masaldan oluşan dijital bir derlemedir. Sitedeki masallar; olağanüstü, gerçekçi ve hayvan masalları olmak üzere türlerine göre kategorize edilmiştir. Kullanıcılar, ilgili butonlara tıklayarak diledikleri masal türüne kolayca ulaşabilir ve arama aracı sayesinde site içindeki masallar arasında hızlıca arama yapabilirler. Ayrıca, gece çocuklarına masal okuyan ebeveynlerin göz sağlığını korumak ve rahatsız edici ışığı önlemek amacıyla bir "Gece Modu" özelliği eklenmiştir. Listelenen masalların üzerine tıklandığında ise masalın tamamı tam ekran açılarak rahat bir okuma deneyimi sunar.
+Hazırlayan: Sudenaz Çetin (86230001)
+
